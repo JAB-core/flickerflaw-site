@@ -3,23 +3,160 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Flicker Flaw</title>
-<meta name="description" content="Flicker Flaw is a spot the difference puzzle game for Android by Boulton Games.">
-<link rel="stylesheet" href="/style.css">
+<title>Flicker Flaw: spot the odd one out</title>
+<meta name="description" content="Flicker Flaw is a spot the difference puzzle game for Android by Boulton Games. One picture is different. Find it before the clock runs out. No ads, no accounts, no tracking.">
+<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png">
+<link rel="apple-touch-icon" href="/img/icon-192.png">
+<meta property="og:title" content="Flicker Flaw">
+<meta property="og:description" content="One picture is different. Find it before the clock runs out. A $0.99 puzzle game for Android with no ads.">
+<meta property="og:image" content="https://flickerflaw.com/img/hero.jpg">
+<meta property="og:url" content="https://flickerflaw.com/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0c1631; --bg2:#122045; --card:#16264f; --line:#24396b;
+  --text:#eef2fb; --muted:#a9b6d6;
+  --gold:#f7b52c; --gold-dark:#c9861a; --gold-text:#3a2205;
+  --teal:#2fb8a6; --teal-dark:#1d8577;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:radial-gradient(1200px 600px at 50% -10%, #1b2d63 0%, var(--bg) 60%) fixed, var(--bg);
+  color:var(--text); font-family:"Nunito",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  line-height:1.6; -webkit-font-smoothing:antialiased;
+}
+a{color:var(--teal)}
+.wrap{max-width:1040px; margin:0 auto; padding:0 16px}
+header.top{display:flex; align-items:center; gap:10px; padding:18px 0}
+header.top img{width:36px; height:36px; border-radius:9px}
+header.top span{font-family:"Fredoka",sans-serif; font-weight:600; font-size:1.15rem; letter-spacing:.2px}
+
+.hero{margin-top:6px}
+.hero img{display:block; width:100%; height:auto; border-radius:22px; border:1px solid var(--line);
+  box-shadow:0 24px 60px rgba(0,0,0,.45)}
+.pitch{text-align:center; padding:34px 0 8px}
+.pitch h1{font-family:"Fredoka",sans-serif; font-weight:700; font-size:clamp(1.7rem,4.6vw,2.6rem); line-height:1.15; margin:0 0 12px}
+.pitch h1 em{font-style:normal; color:var(--gold)}
+.pitch p{color:var(--muted); font-size:1.08rem; max-width:620px; margin:0 auto}
+
+.cta{display:flex; flex-direction:column; align-items:center; gap:10px; padding:26px 0 8px}
+.btn{
+  display:inline-flex; align-items:center; gap:12px; text-decoration:none;
+  background:var(--gold); color:var(--gold-text);
+  font-family:"Fredoka",sans-serif; font-weight:700; font-size:1.3rem; letter-spacing:.3px;
+  padding:16px 34px; border-radius:16px; border-bottom:6px solid var(--gold-dark);
+  box-shadow:0 10px 26px rgba(247,181,44,.25); transition:transform .12s ease, border-bottom-width .12s ease, filter .12s ease;
+}
+.btn:hover{filter:brightness(1.05); transform:translateY(-1px)}
+.btn:active{transform:translateY(3px); border-bottom-width:3px}
+.btn svg{width:22px; height:22px; flex:none}
+.cta small{color:var(--muted); font-size:.92rem}
+
+.features{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; padding:40px 0 10px}
+.feature{background:var(--card); border:1px solid var(--line); border-radius:18px; padding:22px 20px}
+.feature .badge{width:44px; height:44px; border-radius:12px; display:grid; place-items:center; margin-bottom:12px;
+  background:rgba(47,184,166,.14); color:var(--teal)}
+.feature .badge svg{width:24px; height:24px}
+.feature h2{font-family:"Fredoka",sans-serif; font-weight:600; font-size:1.2rem; margin:0 0 6px}
+.feature p{margin:0; color:var(--muted)}
+
+.shots{padding:44px 0 8px}
+.shots h2{font-family:"Fredoka",sans-serif; font-weight:600; font-size:1.5rem; text-align:center; margin:0 0 18px}
+.shot-row{display:grid; grid-template-columns:repeat(4,1fr); gap:16px}
+.shot-row img{display:block; width:100%; height:auto; border-radius:18px; border:1px solid var(--line);
+  box-shadow:0 14px 34px rgba(0,0,0,.4)}
+
+.closing{text-align:center; padding:50px 0 20px}
+.closing h2{font-family:"Fredoka",sans-serif; font-weight:600; font-size:1.5rem; margin:0 0 6px}
+.closing p{color:var(--muted); margin:0}
+
+footer{border-top:1px solid var(--line); margin-top:40px; padding:22px 0 34px; color:var(--muted); font-size:.92rem;
+  display:flex; flex-wrap:wrap; gap:8px 18px; justify-content:space-between}
+footer nav a{margin-right:14px}
+
+@media (max-width:760px){
+  .features{grid-template-columns:1fr}
+  .shot-row{display:flex; overflow-x:auto; scroll-snap-type:x mandatory; gap:12px; padding-bottom:8px;
+    margin:0 -16px; padding-left:16px; padding-right:16px}
+  .shot-row img{flex:0 0 62%; width:62%; scroll-snap-align:center}
+  .btn{font-size:1.15rem; padding:15px 26px}
+  .hero img{border-radius:16px}
+}
+</style>
 </head>
 <body>
-<main>
-<h1>Flicker Flaw</h1>
-<p class="muted">A spot the difference puzzle game for Android by Boulton Games.</p>
-<div class="card">
-<p>One tile in the grid is different. Find it before the clock runs out. The grid grows as your streak climbs, and new picture packs unlock as you go.</p>
-<p>No ads. No accounts. No tracking. Pay once and play offline.</p>
-<p><a href="https://play.google.com/store/apps/details?id=com.flickerflaw.game">Get it on Google Play</a></p>
-</div>
+<div class="wrap">
+
+<header class="top">
+  <img src="/img/icon-192.png" alt="" width="36" height="36">
+  <span>Boulton Games</span>
+</header>
+
+<section class="hero">
+  <img src="/img/hero.jpg" width="1024" height="500" alt="Flicker Flaw. Flicker the cat detective looks through a magnifying glass at a board of apples where one is different.">
+</section>
+
+<section class="pitch">
+  <h1>One picture is different.<br><em>Can you spot it in time?</em></h1>
+  <p>Tap the odd one out before the clock runs out. Every right tap adds time. Every wrong tap takes it away. The board keeps growing, from 2x2 all the way to 6x6.</p>
+</section>
+
+<section class="cta">
+  <a class="btn" href="https://play.google.com/store/apps/details?id=com.flickerflaw.game">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 4.5v15a1 1 0 0 0 1.53.85l12-7.5a1 1 0 0 0 0-1.7l-12-7.5A1 1 0 0 0 7 4.5z"/></svg>
+    Get it on Google Play
+  </a>
+  <small>$0.99 once. Android 10 and up.</small>
+</section>
+
+<section class="features">
+  <div class="feature">
+    <div class="badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 3h8v8H3zm10 0h8v8h-8zM3 13h8v8H3zm10 0h8v8h-8z" opacity=".35"/><path fill="currentColor" d="M13 13h8v8h-8z"/></svg></div>
+    <h2>Easy to learn, hard to master</h2>
+    <p>Start on a small board and build a streak. The grid grows as you go and the differences get sneakier.</p>
+  </div>
+  <div class="feature">
+    <div class="badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm3 11 3-4 2 2.5 3-4 3 5.5z"/></svg></div>
+    <h2>New picture packs every month</h2>
+    <p>Office supplies, sports, cars, Halloween, Thanksgiving and more. Reach a 35 streak to unlock the next pack.</p>
+  </div>
+  <div class="feature">
+    <div class="badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5zm-1.2 13.5-3.3-3.3 1.4-1.4 1.9 1.9 4.6-4.6 1.4 1.4z"/></svg></div>
+    <h2>No ads. No tracking.</h2>
+    <p>No accounts, no in-app purchases and no data collected. Pay once and play offline, anywhere.</p>
+  </div>
+</section>
+
+<section class="shots">
+  <h2>Take a look</h2>
+  <div class="shot-row">
+    <img src="/img/shot-1.jpg" width="540" height="825" loading="lazy" alt="A 5 by 5 board of laptops where one screen is a different color">
+    <img src="/img/shot-2.jpg" width="540" height="825" loading="lazy" alt="A board of Halloween spiders with one that is different">
+    <img src="/img/shot-3.jpg" width="540" height="825" loading="lazy" alt="Choosing a picture pack, with the Halloween pack shown">
+    <img src="/img/shot-4.jpg" width="540" height="825" loading="lazy" alt="Run over screen showing a new personal best and a new pack unlocked">
+  </div>
+</section>
+
+<section class="closing">
+  <h2>Flicker is waiting.</h2>
+  <p>Grab the game and see how long a streak you can build.</p>
+  <div class="cta">
+    <a class="btn" href="https://play.google.com/store/apps/details?id=com.flickerflaw.game">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 4.5v15a1 1 0 0 0 1.53.85l12-7.5a1 1 0 0 0 0-1.7l-12-7.5A1 1 0 0 0 7 4.5z"/></svg>
+      Get it on Google Play
+    </a>
+  </div>
+</section>
+
 <footer>
-<p><a href="/privacy/">Privacy Policy</a> &middot; <a href="/terms/">Terms of Service</a></p>
-<p>&copy; 2026 Boulton Games</p>
+  <nav><a href="/privacy/">Privacy Policy</a><a href="/terms/">Terms of Service</a><a href="mailto:hello@boultongames.com">Contact</a></nav>
+  <span>&copy; 2026 Boulton Games</span>
 </footer>
-</main>
+
+</div>
 </body>
 </html>
